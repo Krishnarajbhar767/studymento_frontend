@@ -1,24 +1,12 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, Hind_Madurai } from "next/font/google";
+
 import "@/app/styles/globals.css";
-import "@/app/styles/button.css";
+
 import Header from "./components/ui/header";
 import Footer from "./components/ui/footer";
 
-import Provider from "./utils/provider";
-
-export const bodyFont = Hind_Madurai({
-    subsets: ["latin"],
-    variable: "--font-body",
-    weight: ["300", "400", "500", "600", "700"],
-    fallback: ["arial"],
-});
-export const headinfFont = Instrument_Serif({
-    subsets: ["latin"],
-    variable: "--font-heading",
-    style: "normal",
-    weight: "400",
-});
+import Provider from "./lib/provider";
+import { Hind_Madurai_Font, Instrument_Serif_Font } from "./lib/fonts";
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -32,7 +20,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={`${bodyFont.className} antialiased`}>
+            <body className={`${Hind_Madurai_Font.className} antialiased`}>
                 <Provider>
                     <Header />
                     {children}
