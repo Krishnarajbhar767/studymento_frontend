@@ -16,7 +16,7 @@ export default function NavItems({
     if (isMobile) {
         // Mobile Menu
         return (
-            <div className="fixed inset-0 bg-white text-gray-800 flex flex-col items-center justify-center gap-6 z-50">
+            <div className="fixed inset-0 bg-gradient-to-r  from-[#1C181D] to-[#190202] text-white flex flex-col items-center justify-center gap-6 z-50">
                 <div className="">
                     <LucideX
                         size={30}

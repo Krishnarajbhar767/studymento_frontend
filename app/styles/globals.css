@@ -60,6 +60,13 @@ main {
 
 /* Purple  Gradient */
 
+.gradient {
+  background: radial-gradient(circle 200% 200% at center,
+      rgba(157, 46, 253, 0.6),
+
+      rgba(0, 0, 0, 0));
+}
+
 .boxed {
   max-width: 1300px;
   width: 100%;

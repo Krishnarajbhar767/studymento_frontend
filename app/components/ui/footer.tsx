@@ -6,7 +6,7 @@ export default function Footer() {
     ];
 
     return (
-        <footer className="bg-gray-800 text-white mt-10">
+        <footer className="bg-gray-800 text-white ">
             <div className="container mx-auto p-6 flex flex-col md:flex-row justify-between items-center">
                 <p>© 2025 MyWebsite. All rights reserved.</p>
                 <div className="flex gap-4 mt-2 md:mt-0">

@@ -34,7 +34,7 @@ export function CourseCard({
             <p className=" font-normal text-sm leading-relaxed">{paragraph}</p>
             <GradientHeading
                 tag="h3"
-                text="Enroll in This Course Today"
+                coloredText="Enroll in This Course Today"
                 size="sm"
             />
         </div>

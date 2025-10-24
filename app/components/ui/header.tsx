@@ -52,7 +52,7 @@ export default function Header() {
                         {/* Sign uP BUTTON  */}
                         <Button
                             variant="secondary"
-                            style="flex gap-2 item-center"
+                            className="flex gap-2 item-center"
                         >
                             Sign up
                         </Button>

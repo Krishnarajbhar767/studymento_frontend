@@ -14,7 +14,7 @@ type ButtonProps = {
     variant?: ButtonVariant;
     disabled?: boolean;
     loading?: boolean;
-    style?: string;
+    className?: string;
     type?: "button" | "submit" | "reset";
 };
 
@@ -24,11 +24,11 @@ const Button: React.FC<ButtonProps> = ({
     variant = "primary",
     disabled = false,
     loading = false,
-    style = "",
+    className = "",
     type = "button",
 }) => {
     const baseStyle =
-        "px-4 py-2 rounded-md font-medium transition-all focus:outline-none focus:ring-2 cursor-pointer";
+        "px-4 py-2 rounded-full font-medium transition-all focus:outline-none focus:ring-2 cursor-pointer";
 
     const variantStyles: Record<ButtonVariant, string> = {
         primary:
@@ -50,7 +50,7 @@ const Button: React.FC<ButtonProps> = ({
             disabled={disabled || loading}
             className={`${baseStyle} ${variantStyles[variant]} ${
                 disabled ? "opacity-50 cursor-not-allowed" : ""
-            } ${style}`}
+            } ${className}`}
         >
             {loading ? "Loading..." : children}
         </button>

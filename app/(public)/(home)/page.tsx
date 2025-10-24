@@ -9,12 +9,18 @@ import { GradientHeading } from "../components/ui/gradient-heading";
 
 import { HomeCourseExplore } from "../components/home/home-course-explore";
 import { HomeHero } from "../components/home/home-hero";
+import { HomeInsideCourse } from "../components/home/home-inside-course";
+import { HomeBonus } from "../components/home/home-bonus";
 
 export default function Home() {
     return (
         <main className="bg-gradient-to-r from-[#2A292B] to-[#060515]">
             <HomeHero />
-            <HomeCourseExplore />
+            <div className="p-4">
+                <HomeInsideCourse />
+                <HomeCourseExplore />
+                <HomeBonus />
+            </div>
         </main>
     );
 }

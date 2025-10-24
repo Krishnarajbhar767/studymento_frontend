@@ -38,15 +38,17 @@ const courseData: Course[] = [
 ];
 export function HomeCourseExplore() {
     return (
-        <section className="boxed px-0 md:px-0 lg:px-10 space-y-6 py-6">
-            <h2 className="text-white font-bold text-2xl sm:text-4xl text-center">
-                Course Categories / Explore Courses
-            </h2>
-            <h3
-                className={`${Instrument_Serif_Font.className} text-white italic text-xl sm:text-4xl tracking-wider text-center`}
-            >
-                Start Free Trial → Pick Your Favorite
-            </h3>
+        <section className="boxed px-0 md:px-0 lg:px-10 space-y-6 py-12 ">
+            <div>
+                <h2 className="text-white font-bold text-2xl sm:text-4xl text-center">
+                    Course Categories / Explore Courses
+                </h2>
+                <h3
+                    className={`${Instrument_Serif_Font.className} text-white italic text-xl sm:text-4xl tracking-wider text-center`}
+                >
+                    Start Free Trial → Pick Your Favorite
+                </h3>
+            </div>
             <div className="w-full  grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {courseData.map((itm, idx) => (
                     <Link href={itm.href} key={idx}>
