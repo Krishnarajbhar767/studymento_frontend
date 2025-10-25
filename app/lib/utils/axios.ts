@@ -1,17 +1,11 @@
 import axios, { AxiosError } from "axios";
 
 export const api = axios.create({
-    baseURL: process.env.NEXT_BACKEND_URL,
+    baseURL: process.env.NEXT_PUBLIC_BACKEND_URL as string,
     withCredentials: true,
 });
 
 api.interceptors.response.use(
     (res) => res.data,
-    async function (err) {
-        if (err?.response?.status === 401) {
-            console.log("Auth Error");
-        } else {
-            Promise.reject(err);
-        }
-    }
+    (err) => Promise.reject(err?.response?.data || err)
 );

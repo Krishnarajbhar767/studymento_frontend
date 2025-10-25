@@ -13,7 +13,7 @@ type ButtonProps = {
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
     variant?: ButtonVariant;
     disabled?: boolean;
-    loading?: boolean;
+    submitting?: boolean;
     className?: string;
     type?: "button" | "submit" | "reset";
 };
@@ -23,7 +23,7 @@ const Button: React.FC<ButtonProps> = ({
     onClick,
     variant = "primary",
     disabled = false,
-    loading = false,
+
     className = "",
     type = "button",
 }) => {
@@ -47,12 +47,12 @@ const Button: React.FC<ButtonProps> = ({
         <button
             type={type}
             onClick={onClick}
-            disabled={disabled || loading}
+            disabled={disabled}
             className={`${baseStyle} ${variantStyles[variant]} ${
                 disabled ? "opacity-50 cursor-not-allowed" : ""
             } ${className}`}
         >
-            {loading ? "Loading..." : children}
+            {children}
         </button>
     );
 };

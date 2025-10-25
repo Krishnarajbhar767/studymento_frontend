@@ -6,6 +6,7 @@ import { Logo } from "./logo";
 import Button from "./button";
 import { LucideMenu } from "lucide-react";
 import { useState } from "react";
+import Link from "next/link";
 
 const navLinks: TNavLinks = [
     { name: "Home", href: "/" },
@@ -24,6 +25,7 @@ export default function Header() {
         setIsMobileMenuOpen((p) => !p);
         console.log("Is MObile Menu Open Or Not", isMobileMenuOpen);
     }
+
     return (
         <header className="bg-gradient-to-r  from-[#1C181D] to-[#190202] text-white shadow-md h-20 relative ">
             <nav className="boxed flex items-center justify-between h-full w-full  px-4">
@@ -48,14 +50,18 @@ export default function Header() {
 
                     {/*  Sign Up And Login Container*/}
                     <div className=" gap-4 sm:flex hidden">
-                        <Button variant="primary">Login</Button>
+                        <Link href={"/login"}>
+                            <Button variant="primary">Login</Button>
+                        </Link>
                         {/* Sign uP BUTTON  */}
-                        <Button
-                            variant="secondary"
-                            className="flex gap-2 item-center"
-                        >
-                            Sign up
-                        </Button>
+                        <Link href={"/signup"}>
+                            <Button
+                                variant="secondary"
+                                className="flex gap-2 item-center"
+                            >
+                                Sign up
+                            </Button>
+                        </Link>
                     </div>
                 </div>
             </nav>

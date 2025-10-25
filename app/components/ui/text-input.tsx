@@ -1,6 +1,6 @@
 import { FieldValues, UseFormRegister, FieldErrors } from "react-hook-form";
 type Props = Readonly<{
-    type?: string;
+    type?: "email" | "text" | "password";
     label: string;
     name: keyof FieldValues;
     initialValue?: string;
@@ -34,7 +34,7 @@ function Input({
                     defaultValue={initialValue || ""}
                     placeholder={placeholder || ""}
                     {...register(name)} // call the function  dynamically
-                    className="styled-input"
+                    className="styled-input uppercase"
                 />
                 {error?.[name] && (
                     <span className="text-red-500 text-sm">

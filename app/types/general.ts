@@ -8,3 +8,10 @@ export interface User {
     role: TRole;
     token: string;
 }
+
+// Api Response
+export type ApiResponse = {
+    success: boolean;
+    message: string;
+    data: any;
+};
