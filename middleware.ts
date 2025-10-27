@@ -18,7 +18,11 @@ export async function middleware(req: NextRequest) {
     const REQUESTED_URL = req.url.replace(FRONTEND_URL, "").toLowerCase();
     const ACCESS_TOKEN = req.cookies?.get("accessToken")?.value;
     const ROLE = req.cookies.get("role")?.value as TRole;
-    console.log("Printing  Access TOken And Cookies", ACCESS_TOKEN, ROLE);
+    console.log(
+        "Printing  Access TOken And Cookies From Cookies",
+        ACCESS_TOKEN,
+        ROLE
+    );
     // If Access Token Is Avalaible Then
     if (ACCESS_TOKEN) {
         if (REQUESTED_URL === "/login") {

@@ -10,6 +10,7 @@ import { useState } from "react";
 import { ApiResponse } from "@/app/types/general";
 import { api } from "@/app/lib/utils/axios";
 import toast from "react-hot-toast";
+import { AUTH_EP } from "@/app/lib/endpoints";
 
 export default function SignupPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -25,7 +26,7 @@ export default function SignupPage() {
         setIsSubmitting(true);
         try {
             const res: ApiResponse = await api.post(
-                "/auth/user/register",
+                AUTH_EP.register,
                 signUpData
             );
             reset();
@@ -64,6 +65,7 @@ export default function SignupPage() {
                     register={register}
                     error={errors}
                     placeholder="eg - Krish@111"
+                    className="!normal-case"
                 />
                 <Button
                     type="submit"

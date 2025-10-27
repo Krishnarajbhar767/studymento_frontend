@@ -6,7 +6,12 @@ function Provider({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
         <ReactQueryProvider>
             {children}
-            <Toaster />
+            <Toaster
+                containerStyle={{
+                    textAlign: "center",
+                    textTransform: "capitalize",
+                }}
+            />
         </ReactQueryProvider>
     );
 }

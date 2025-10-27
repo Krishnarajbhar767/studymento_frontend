@@ -8,6 +8,7 @@ interface IUser {
 
 interface IAuthState {
     user: IUser | null;
+
     accessToken: string | null;
     login: (user: IUser, accessToken: string) => void;
     logout: () => void;
