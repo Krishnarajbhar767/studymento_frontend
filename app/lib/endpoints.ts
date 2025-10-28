@@ -1,7 +1,7 @@
 // Type Of All Routes
 type TRoutes = Record<string, string | ((...args: any[]) => string)>;
 // Utility To Craete  Routes That Should  Be Readonly
-const makeRoutes = <T extends TRoutes>(
+export const makeRoutes = <T extends TRoutes>(
     BASE_URL: string,
     routes: T
 ): Readonly<T> => {
@@ -16,9 +16,17 @@ const makeRoutes = <T extends TRoutes>(
 };
 
 // ========================AUTH====================
-export const AUTH_EP = makeRoutes("/auth/user", {
+export const authEndpoints = makeRoutes("/auth/user", {
     register: "/register",
-    verifyToken: (token: string) => `/verify/${token}`,
     login: "/login",
+    logout: "/logout",
     verifyLoginOtp: "/verify",
+    getProfile: "/profile",
+    refreshToken: "/refresh",
+    refreshCsrf: "/refresh-csrf",
+    forgotPassword: "/forgot-password",
+    verifyToken: (token: string) => `/verify/${token}`,
+    resetPassword: (token: string) => `/reset-password/${token}`,
 });
+
+// authEndpoints

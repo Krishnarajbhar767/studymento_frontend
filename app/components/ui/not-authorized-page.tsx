@@ -1,6 +1,6 @@
 "use client";
 
-import { useUserStore } from "@/app/store/user";
+import { useUserStore } from "@/app/store/user.store";
 import Link from "next/link";
 
 export default function NotAuthorizedPage() {

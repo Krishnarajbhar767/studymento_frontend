@@ -9,3 +9,10 @@ api.interceptors.response.use(
     (res) => res.data,
     (err) => Promise.reject(err?.response?.data || err)
 );
+
+// Api Response
+export type ApiResponse<T = unknown> = {
+    success: boolean;
+    message: string;
+    data?: T;
+};

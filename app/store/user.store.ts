@@ -8,22 +8,9 @@ interface IUser {
 
 interface IAuthState {
     user: IUser | null;
-
-    accessToken: string | null;
-    login: (user: IUser, accessToken: string) => void;
-    logout: () => void;
 }
 
 export const useUserStore = create<IAuthState>((set) => ({
     user: null,
     accessToken: null,
-    login(user, accessToken) {
-        set({ user, accessToken });
-    },
-    logout() {
-        set({
-            accessToken: null,
-            user: null,
-        });
-    },
 }));

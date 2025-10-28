@@ -1,4 +1,4 @@
-import { useUserStore } from "@/app/store/user";
+import { useUserStore } from "@/app/store/user.store";
 import { api } from "./axios";
 
 export async function tryAutoLogin() {

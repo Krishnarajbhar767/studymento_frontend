@@ -5,7 +5,7 @@ import Input from "@/app/components/ui/text-input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff } from "lucide-react";
 import { ILoginValues, loginSchema } from "@/app/validation/auth.validation";
-import { AUTH_EP } from "@/app/lib/endpoints";
+import { authEndpoints } from "@/app/lib/endpoints";
 import { api } from "@/app/lib/utils/axios";
 import { ApiResponse } from "@/app/types/general";
 import { useForm } from "react-hook-form";
@@ -30,7 +30,10 @@ export function LoginForm({ setEmail, setStage }: Props) {
     const loginHandler = async (loginData: ILoginValues) => {
         try {
             setIsSubmitting(true);
-            const res: ApiResponse = await api.post(AUTH_EP.login, loginData);
+            const res: ApiResponse = await api.post(
+                authEndpoints.login,
+                loginData
+            );
             setEmail(loginData.email);
             setStage("otp");
             toast.success(res.message);

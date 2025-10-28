@@ -5,7 +5,7 @@ import OtpInput from "react-otp-input";
 import Button from "@/app/components/ui/button";
 import toast from "react-hot-toast";
 import { api } from "@/app/lib/utils/axios";
-import { AUTH_EP } from "@/app/lib/endpoints";
+import { authEndpoints } from "@/app/lib/endpoints";
 import { ApiResponse } from "@/app/types/general";
 
 export function OtpVerificationForm({ email }: { email: string }) {
@@ -27,14 +27,22 @@ export function OtpVerificationForm({ email }: { email: string }) {
 
         try {
             setIsSubmitting(true);
-            // Example API call
-            const res: ApiResponse = await api.post(AUTH_EP.verifyLoginOtp, {
-                email,
-                otp,
-            });
-            console.log("OTP verification Credentials :", { email, otp });
-            console.log("After Login Response ", res);
-            toast.success("OTP verified successfully!");
+            // Call OTP Verification API
+            const res: ApiResponse = await api.post(
+                authEndpoints.verifyLoginOtp,
+                {
+                    email,
+                    otp,
+                }
+            );
+            // If Otp Verifying Successfull Fetch User  Data
+            if (res.success) {
+                const res: ApiResponse = await api.get(
+                    authEndpoints.getProfile
+                );
+                toast.success(res.message);
+                console.log("DEV: User Data After Login", res.data);
+            }
         } catch (error: unknown) {
             const { message } = error as { message: string };
             toast.error(message || "Something went wrong.");
@@ -77,4 +85,14 @@ export function OtpVerificationForm({ email }: { email: string }) {
             </Button>
         </form>
     );
+}
+
+async function verifyOtpAndFetchProfile(email: string, otp: string) {
+    const verify = await verifyLoginOtp(email, otp);
+    if (!verify.success) throw new Error(verify.message);
+
+    const profile = await fetchUserProfile();
+    if (!profile.success) throw new Error(profile.message);
+
+    return profile.data;
 }

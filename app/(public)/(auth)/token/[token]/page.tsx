@@ -3,7 +3,7 @@ import { ApiResponse } from "@/app/types/general";
 import toast from "react-hot-toast";
 import { CheckCircle, XCircle } from "lucide-react";
 import Link from "next/link";
-import { AUTH_EP } from "@/app/lib/endpoints";
+import { authEndpoints } from "@/app/lib/endpoints";
 
 export default async function verifyAccountPage({
     params,
@@ -13,7 +13,9 @@ export default async function verifyAccountPage({
     // get token from url
     const { token } = await params;
     try {
-        const res: ApiResponse = await api.post(AUTH_EP.verifyToken(token));
+        const res: ApiResponse = await api.post(
+            authEndpoints.verifyToken(token)
+        );
         if (res?.success) {
             return <SuccessVerification />;
         } else return <FailedVerification />;

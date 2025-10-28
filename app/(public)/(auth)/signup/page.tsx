@@ -7,10 +7,11 @@ import Input from "@/app/components/ui/text-input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/app/components/ui/button";
 import { useState } from "react";
-import { ApiResponse } from "@/app/types/general";
+
 import { api } from "@/app/lib/utils/axios";
 import toast from "react-hot-toast";
-import { AUTH_EP } from "@/app/lib/endpoints";
+import { authEndpoints } from "@/app/lib/endpoints";
+import { authService } from "@/app/service";
 
 export default function SignupPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -25,12 +26,9 @@ export default function SignupPage() {
     async function onSubmitHandler(signUpData: ISignUpFormValues) {
         setIsSubmitting(true);
         try {
-            const res: ApiResponse = await api.post(
-                AUTH_EP.register,
-                signUpData
-            );
+            const res = await authService.signup(signUpData);
             reset();
-            toast.success(res.message);
+            toast.success(res?.message);
         } catch (err: unknown) {
             const error = err as { message?: string };
             toast.error(error?.message || "Something went wrong");

@@ -9,9 +9,9 @@ export interface User {
     token: string;
 }
 
-// Api Response
-export type ApiResponse = {
-    success: boolean;
-    message: string;
-    data: any;
-};
+// // Api Response
+// export type ApiResponse = {
+//     success: boolean;
+//     message: string;
+//     data: any;
+// };
