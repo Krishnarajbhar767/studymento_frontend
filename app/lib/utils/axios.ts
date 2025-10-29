@@ -11,8 +11,16 @@ api.interceptors.response.use(
 );
 
 // Api Response
-export type ApiResponse<T = unknown> = {
-    success: boolean;
-    message: string;
-    data?: T;
-};
+export type ApiResponse<T = unknown> =
+    | {
+          success: true;
+          message: string;
+          data: T;
+      }
+    | {
+          success: false;
+          message: string;
+          status: number;
+          data: null;
+          error: any;
+      };

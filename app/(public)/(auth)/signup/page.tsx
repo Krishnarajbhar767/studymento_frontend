@@ -6,35 +6,29 @@ import { useForm } from "react-hook-form";
 import Input from "@/app/components/ui/text-input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/app/components/ui/button";
-import { useState } from "react";
 
-import { api } from "@/app/lib/utils/axios";
 import toast from "react-hot-toast";
-import { authEndpoints } from "@/app/lib/endpoints";
+
 import { authService } from "@/app/service";
 
 export default function SignupPage() {
-    const [isSubmitting, setIsSubmitting] = useState(false);
     const {
         handleSubmit,
         register,
         reset,
-        formState: { errors },
+        formState: { errors, isSubmitting },
     } = useForm<ISignUpFormValues>({
         resolver: zodResolver(signupSchema),
     });
     async function onSubmitHandler(signUpData: ISignUpFormValues) {
-        setIsSubmitting(true);
-        try {
-            const res = await authService.signup(signUpData);
-            reset();
-            toast.success(res?.message);
-        } catch (err: unknown) {
-            const error = err as { message?: string };
-            toast.error(error?.message || "Something went wrong");
-        } finally {
-            setIsSubmitting(false);
+        const res = await authService.signup(signUpData);
+        if (!res.success) {
+            toast.error(res.message);
+            return;
         }
+        console.log("Api Response");
+        reset();
+        toast.success(res?.message);
     }
     return (
         <main>

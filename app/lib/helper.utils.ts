@@ -31,22 +31,24 @@ export function throttle(
     };
 }
 
-export function servicesWrapper<
-    T extends (...args: any[]) => Promise<ApiResponse<any>>,
->(func: T) {
-    return async (...args: Parameters<T>): Promise<ApiResponse<any>> => {
+export function servicesWrapper<T extends (...args: any[]) => any>(
+    func: T
+): (...args: Parameters<T>) => Promise<ReturnType<T>> {
+    return async function (...args: Parameters<T>) {
         try {
-            const res = await func(...args);
-            return res;
+            return await func(...args);
         } catch (error: any) {
-            console.error("API Error: DEV", error);
-            return {
-                success: false,
-                message:
-                    error?.response?.data?.message ||
-                    error?.message ||
-                    "Something went wrong.",
+            // If Error Comes From Server  Then  Structure Should Be  ApiResponse, Other Wise Show Then  Something Went Wrong
+
+            const response = {
+                success: error?.success as string,
+                message: (error?.message as string) || "Internal server error",
+                status: (error.status as number) || 500,
+                data: null,
             };
+            console.log("Formatted Error Response =>", response);
+            console.log("Raw And Real Api Error Response =>", error);
+            return response;
         }
     };
 }

@@ -10,8 +10,11 @@ export const loginSchema = z.object({
     password: z
         .string()
         .trim()
-        .nonempty({ error: "Password is required." }) // check emptiness first
+        .nonempty({ error: "Password is required." })
         .min(8, { error: "Password must be at least 8 characters." })
+        .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/, {
+            error: "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character.",
+        })
         .trim(),
 });
 
@@ -33,11 +36,13 @@ export const signupSchema = z.object({
 
     password: z
         .string()
+        .trim()
         .nonempty({ error: "Password is required." })
         .min(8, { error: "Password must be at least 8 characters." })
-        .regex(/^(?=.*[A-Za-z])(?=.*\d)[^\s]+$/, {
-            error: "Password must contain letters, numbers, and no spaces.",
-        }),
+        .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/, {
+            error: "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character.",
+        })
+        .trim(),
 });
 
 export type ISignUpFormValues = z.infer<typeof signupSchema>;

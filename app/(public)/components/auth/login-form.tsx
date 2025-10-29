@@ -7,43 +7,37 @@ import { Eye, EyeOff } from "lucide-react";
 import { ILoginValues, loginSchema } from "@/app/validation/auth.validation";
 import { authEndpoints } from "@/app/lib/endpoints";
 import { api } from "@/app/lib/utils/axios";
-import { ApiResponse } from "@/app/types/general";
+
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { authService } from "@/app/service";
 
 type Props = {
     setEmail: Dispatch<SetStateAction<string>>;
     setStage: Dispatch<SetStateAction<"otp" | "login">>;
 };
 export function LoginForm({ setEmail, setStage }: Props) {
-    const [isSubmitting, setIsSubmitting] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const {
         handleSubmit,
         register,
         reset,
-        formState: { errors },
+        formState: { errors, isSubmitting },
     } = useForm<ILoginValues>({
         resolver: zodResolver(loginSchema),
     });
     // function
     const loginHandler = async (loginData: ILoginValues) => {
-        try {
-            setIsSubmitting(true);
-            const res: ApiResponse = await api.post(
-                authEndpoints.login,
-                loginData
-            );
-            setEmail(loginData.email);
-            setStage("otp");
-            toast.success(res.message);
-        } catch (error: unknown) {
-            const err = error as { message: string };
-            toast.error(err?.message || "Something went wrong");
-        } finally {
-            setIsSubmitting(false);
+        const res = await authService.login(loginData);
+        if (!res.success) {
+            toast.error(res?.message);
+            return;
         }
+        setEmail(loginData.email);
+        setStage("otp");
+        toast.success(res.message);
     };
+
     const togglePassword = () => setShowPassword((prev) => !prev);
     return (
         <form className="space-y-4 " onSubmit={handleSubmit(loginHandler)}>

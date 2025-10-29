@@ -6,54 +6,43 @@ import Button from "@/app/components/ui/button";
 import toast from "react-hot-toast";
 import { api } from "@/app/lib/utils/axios";
 import { authEndpoints } from "@/app/lib/endpoints";
-import { ApiResponse } from "@/app/types/general";
+
+import { authService } from "@/app/service";
+import { useForm } from "react-hook-form";
 
 export function OtpVerificationForm({ email }: { email: string }) {
     const [otp, setOtp] = useState("");
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const {
+        formState: { isSubmitting },
+        handleSubmit,
+    } = useForm();
 
+    // OTP Change Function Handler
     // restrict to digits only
     const handleChange = (value: string) => {
         const numeric = value.replace(/\D/g, ""); // remove letters, symbols, etc.
         setOtp(numeric);
     };
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (otp.length < 6) {
-            toast.error("Please enter all 6 digits");
+    // Verify Otp And Login Handler
+    const onSubmitHandler = async () => {
+        // verify Otp  And  Login
+        const otpRes = await authService.verifyOtp({ email, otp });
+        if (!otpRes.success) {
+            toast.error(otpRes.message);
             return;
         }
 
-        try {
-            setIsSubmitting(true);
-            // Call OTP Verification API
-            const res: ApiResponse = await api.post(
-                authEndpoints.verifyLoginOtp,
-                {
-                    email,
-                    otp,
-                }
-            );
-            // If Otp Verifying Successfull Fetch User  Data
-            if (res.success) {
-                const res: ApiResponse = await api.get(
-                    authEndpoints.getProfile
-                );
-                toast.success(res.message);
-                console.log("DEV: User Data After Login", res.data);
-            }
-        } catch (error: unknown) {
-            const { message } = error as { message: string };
-            toast.error(message || "Something went wrong.");
-        } finally {
-            setIsSubmitting(false);
+        const profileRes = await authService.getProfile();
+        if (!profileRes.success) {
+            toast.error(profileRes.message);
+            return;
         }
+        console.log("User After success Login", profileRes);
     };
 
     return (
         <form
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmitHandler)}
             className="flex flex-col items-center gap-6 p-4 border"
         >
             <p className="text-gray-600 text-sm text-center">
@@ -85,14 +74,4 @@ export function OtpVerificationForm({ email }: { email: string }) {
             </Button>
         </form>
     );
-}
-
-async function verifyOtpAndFetchProfile(email: string, otp: string) {
-    const verify = await verifyLoginOtp(email, otp);
-    if (!verify.success) throw new Error(verify.message);
-
-    const profile = await fetchUserProfile();
-    if (!profile.success) throw new Error(profile.message);
-
-    return profile.data;
 }

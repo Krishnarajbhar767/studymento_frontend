@@ -10,7 +10,7 @@ export type LoginRequest = {
     password: string;
 };
 
-export type VerifyOtpForLogin = {
+export type verifyOtpRequest = {
     email: string;
     otp: string;
 };

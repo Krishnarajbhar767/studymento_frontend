@@ -20,6 +20,8 @@ export async function middleware(req: NextRequest) {
     const REQUESTED_URL = req.url.replace(FRONTEND_URL, "").toLowerCase();
 
     const ACCESS_TOKEN = req.cookies?.get("accessToken")?.value;
+    const csrfToken = req.cookies?.get("csrfToken")?.value;
+    console.log("ACCESSTOKEN COOOKIES =>", ACCESS_TOKEN, csrfToken);
     const ROLE = req.cookies.get("role")?.value as TRole;
     // console.log(
     //     "Printing  Access TOken And Cookies From Cookies",

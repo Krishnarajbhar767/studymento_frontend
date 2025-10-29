@@ -20,7 +20,7 @@ export const authEndpoints = makeRoutes("/auth/user", {
     register: "/register",
     login: "/login",
     logout: "/logout",
-    verifyLoginOtp: "/verify",
+    verifyOtp: "/verify",
     getProfile: "/profile",
     refreshToken: "/refresh",
     refreshCsrf: "/refresh-csrf",
