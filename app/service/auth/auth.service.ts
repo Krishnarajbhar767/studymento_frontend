@@ -2,7 +2,15 @@ import { authEndpoints } from "@/app/lib/endpoints";
 import { servicesWrapper } from "@/app/lib/helper.utils";
 import { api, ApiResponse } from "@/app/lib/utils/axios";
 
-import { LoginRequest, RegisterRequest, verifyOtpRequest } from "@/app/service";
+import {
+    LoginRequest,
+    RegisterRequest,
+    verifyOtpRequest,
+    verifyOtpResponse,
+} from "@/app/service";
+import { BaseUser } from "@/app/types";
+import axios from "axios";
+
 export const authService = {
     signup: servicesWrapper(async (payload: RegisterRequest) => {
         const res: ApiResponse = await api.post(
@@ -16,15 +24,17 @@ export const authService = {
         return res;
     }),
     verifyOtp: servicesWrapper(async (payload: verifyOtpRequest) => {
-        const res: ApiResponse = await api.post(
+        const res: verifyOtpResponse = await api.post(
             authEndpoints.verifyOtp,
             payload
         );
-        console.log("OTP VERIFICATION Response", res);
+
         return res;
     }),
     getProfile: servicesWrapper(async () => {
-        const res: ApiResponse = await api.get(authEndpoints.getProfile);
+        const res: ApiResponse<BaseUser> = await api.get(
+            authEndpoints.getProfile
+        );
         return res;
     }),
     verifyToken: servicesWrapper(async (token: string) => {
@@ -32,5 +42,15 @@ export const authService = {
             authEndpoints.verifyToken(token)
         );
         return res;
+    }),
+    refreshTokens: servicesWrapper(async (refreshToken?: string) => {
+        const res = await axios.post<ApiResponse>(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}${authEndpoints.refreshToken}`,
+            {},
+            {
+                withCredentials: true,
+            }
+        );
+        return res?.data;
     }),
 };

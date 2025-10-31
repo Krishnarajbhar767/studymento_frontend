@@ -1,16 +1,19 @@
-import { TNavLinks } from "@/app/types/general";
+import { TNavLinks } from "@/app/types/general.types";
 import { LucideX } from "lucide-react";
 import Link from "next/link";
+import Button from "./button";
 
 type NavItemsProps = {
     Links: TNavLinks;
     isMobile?: boolean;
+
     closeMobileMenu?: () => void;
 };
 
 export default function NavItems({
     Links,
     isMobile = false,
+
     closeMobileMenu,
 }: NavItemsProps) {
     if (isMobile) {
@@ -33,6 +36,22 @@ export default function NavItems({
                         {itm.name}
                     </Link>
                 ))}
+                <div className="space-x-4">
+                    <Link href={"/login"} className="">
+                        <Button variant="primary" className="">
+                            Login
+                        </Button>
+                    </Link>
+                    {/* Sign uP BUTTON  */}
+                    <Link href={"/signup"} className="">
+                        <Button
+                            variant="secondary"
+                            className=" gap-2 item-center "
+                        >
+                            Sign up
+                        </Button>
+                    </Link>
+                </div>
             </div>
         );
     }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { DeviceType } from "../types/general";
+import { DeviceType } from "../types/general.types";
 
 // Hook For get Current Device Name
 export const useDevice = (): DeviceType => {

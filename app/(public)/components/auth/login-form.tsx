@@ -73,7 +73,7 @@ export function LoginForm({ setEmail, setStage }: Props) {
                 className="block mx-auto"
                 disabled={isSubmitting}
             >
-                {isSubmitting ? "Submitting..." : "Signup"}
+                {isSubmitting ? "Submitting..." : "Login"}
             </Button>
         </form>
     );

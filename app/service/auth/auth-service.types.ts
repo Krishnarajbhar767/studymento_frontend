@@ -16,3 +16,12 @@ export type verifyOtpRequest = {
 };
 
 // =====================Response=======================
+
+export type verifyOtpResponse = {
+    success: boolean;
+    message: string;
+    accessToken: string;
+    refreshToken: string;
+    csrfToken: string;
+    status: number;
+};

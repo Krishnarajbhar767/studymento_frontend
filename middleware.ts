@@ -1,55 +1,35 @@
 // middleware.ts
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { TRole } from "./app/types/general";
-import { api } from "./app/lib/utils/axios";
 
+import { api } from "./app/lib/utils/axios";
+import { BaseUser, Role } from "./app/types";
+import { useUserStore } from "./app/store/auth.store";
 export async function middleware(req: NextRequest) {
+    // Base FRONTEND_URL
+    const FRONTEND_URL = (process.env.NEXT_PUBLIC_FRONTEND_URL as string) || "";
+    // User Requested Url
+    const REQUESTED_URL = req.url.replace(FRONTEND_URL, "").toLowerCase();
     // Route that User  Can Access
-    const allowedRoutes: Record<TRole, string[]> = {
+    const allowedRoutes: Record<Role, string[]> = {
         student: ["/dashboard/student"],
         admin: ["dashboard/admin"],
         manager: ["/dashboard/manager"],
         mentor: ["/dashboard/mentor"],
     };
 
-    // Base Frontend Url
-    const FRONTEND_URL = (process.env.NEXT_PUBLIC_FRONTEND_URL as string) || "";
-    // User Requested Url
-
-    const REQUESTED_URL = req.url.replace(FRONTEND_URL, "").toLowerCase();
-
-    const ACCESS_TOKEN = req.cookies?.get("accessToken")?.value;
-    const csrfToken = req.cookies?.get("csrfToken")?.value;
-    console.log("ACCESSTOKEN COOOKIES =>", ACCESS_TOKEN, csrfToken);
-    const ROLE = req.cookies.get("role")?.value as TRole;
-    // console.log(
-    //     "Printing  Access TOken And Cookies From Cookies",
-    //     ACCESS_TOKEN,
-    //     ROLE
-    // );
-    // If Access Token Is Avalaible Then
-    if (ACCESS_TOKEN) {
-        if (REQUESTED_URL === "/login") {
-            return NextResponse.redirect(
-                new URL(`/dashboard/${ROLE}`, req.url)
-            );
-        }
-        // get Alllowed User Routes
-        const allowed = allowedRoutes[ROLE] || [];
-        // Check How Many Pages  User Can Acces
-        const canAccess = allowed.some((path) =>
-            REQUESTED_URL.startsWith(path)
-        );
-        if (!canAccess) {
-            return NextResponse.redirect(
-                new URL(`/dashboard/${ROLE}`, req.url)
-            );
-        }
-    } else {
-    }
+    // 1. Handle Auto Login On First  Load
+    //  get user from memory  and accessToken if Both is Not Prasent Then That Means User never Login
+    //  get user from memory  and accessToken if Both is Not Prasent Then That Means User never Login
+    // 2. Now Check Is User Is Authenticated
+    // 3. Check Is User Requested Url Is Allowed For Her Role Or Not ?
 }
 
 export const config = {
-    matcher: ["/dashboard/:path*", "/login"], // run for all paths
+    matcher: [
+        "/dashboard/:path*",
+        "/login",
+        "/",
+        "/((?!api|_next/static|_next/image|favicon.ico).*)",
+    ], // run for all paths
 };

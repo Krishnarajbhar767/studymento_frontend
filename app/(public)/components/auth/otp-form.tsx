@@ -4,13 +4,14 @@ import { useState } from "react";
 import OtpInput from "react-otp-input";
 import Button from "@/app/components/ui/button";
 import toast from "react-hot-toast";
-import { api } from "@/app/lib/utils/axios";
-import { authEndpoints } from "@/app/lib/endpoints";
+import { useUserStore } from "@/app/store/auth.store";
 
 import { authService } from "@/app/service";
 import { useForm } from "react-hook-form";
+import { setTokensInCookies } from "@/app/lib/helper.utils";
 
 export function OtpVerificationForm({ email }: { email: string }) {
+    const { setAccessToken, setRefreshToken, login } = useUserStore();
     const [otp, setOtp] = useState("");
     const {
         formState: { isSubmitting },
@@ -31,13 +32,13 @@ export function OtpVerificationForm({ email }: { email: string }) {
             toast.error(otpRes.message);
             return;
         }
-
+        setAccessToken(otpRes.accessToken);
         const profileRes = await authService.getProfile();
         if (!profileRes.success) {
             toast.error(profileRes.message);
             return;
         }
-        console.log("User After success Login", profileRes);
+        login(profileRes?.data);
     };
 
     return (

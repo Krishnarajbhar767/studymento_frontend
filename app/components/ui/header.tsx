@@ -1,7 +1,7 @@
 "use client";
 import { useDevice } from "@/app/hooks/useDevice";
 import NavItems from "./nav-items";
-import { TNavLinks } from "@/app/types/general";
+import { TNavLinks } from "@/app/types/general.types";
 import { Logo } from "./logo";
 import Button from "./button";
 import { LucideMenu } from "lucide-react";
@@ -20,7 +20,7 @@ const navLinks: TNavLinks = [
 
 export default function Header() {
     const device = useDevice();
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     function toggaleMobileMenu() {
         setIsMobileMenuOpen((p) => !p);
         console.log("Is MObile Menu Open Or Not", isMobileMenuOpen);
@@ -34,7 +34,7 @@ export default function Header() {
                 {/* Nav ITEMS Links And  CTA BUTTON */}
 
                 <div className="flex gap-4 items-center relative">
-                    {device === "mobile" ? (
+                    {device === "mobile" || device === "tablet" ? (
                         isMobileMenuOpen ? (
                             <NavItems
                                 Links={navLinks}
@@ -49,7 +49,7 @@ export default function Header() {
                     )}
 
                     {/*  Sign Up And Login Container*/}
-                    <div className=" gap-4 sm:flex hidden">
+                    <div className=" gap-4 lg:flex hidden ">
                         <Link href={"/login"}>
                             <Button variant="primary">Login</Button>
                         </Link>
